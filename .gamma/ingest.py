@@ -35,8 +35,12 @@ class SupraUnifiedHamiltonian:
         
         if 'SiO2' in crystal_fields:
             phi_c = np.array(crystal_fields['SiO2'])
-            grad_phi = np.gradient(phi_c) if phi_c.ndim > 0 else np.array([phi_c])
-            H_bio += 1e-3 * np.sum(grad_phi**2)
+            if phi_c.ndim > 0:
+                grad_components = np.gradient(phi_c)
+                grad_squared = sum(g**2 for g in grad_components)
+                H_bio += 1e-3 * np.sum(grad_squared)
+            else:
+                H_bio += 1e-3 * phi_c**2
         
         if 'Fe3O4' in crystal_fields:
             M = np.array(crystal_fields['Fe3O4'])
@@ -73,7 +77,8 @@ class SupraUnifiedHamiltonian:
         H_coup = g1 * np.sum(neural * crystal * qubit)
         H_coup += g2 * np.cos(self.omega_gamma * t + np.pi/7) * np.sum(neural * crystal)
         
-        topology_factor = PHI**(-np.sum(np.abs(neural - crystal)))
+        diff = np.abs(neural - crystal)
+        topology_factor = PHI**(-np.sum(diff))
         H_coup += g3 * topology_factor * np.sum(qubit**2)
         
         return H_coup
@@ -96,10 +101,10 @@ class SupraUnifiedHamiltonian:
     def measure_coherence(self, state, t=0.0):
         """Mide coherencia Γ actual del sistema"""
         E = self.total_energy(state, t)
-        return np.exp(-E / (k_B * self.coherence_target))
+        return np.exp(-np.abs(E) / (k_B * self.coherence_target * 1e20))
 
 if __name__ == "__main__":
-    print("🜂 INICIANDO HAMILTONIANO SUPRAUNIFICADO Γ-12")
+    print("🜂 HAMILTONIANO SUPRAUNIFICADO Γ-12 ACTIVADO")
     
     H = SupraUnifiedHamiltonian()
     
@@ -124,10 +129,11 @@ if __name__ == "__main__":
     print(f"✓ Objetivo φ^7: {PHI**7:.6f}")
     
     manifest = {
-        'hamiltonian': 'SupraUnified',
+        'hamiltonian': 'SupraUnified Γ-12',
         'energy_J': float(E),
         'coherence': float(coherence),
         'phi_7': float(PHI**7),
+        'omega_gamma_Hz': float(H.omega_gamma),
         'state': 'OPERACIONAL'
     }
     
@@ -135,4 +141,4 @@ if __name__ == "__main__":
     with open('.gamma/hamiltonian_state.json', 'w') as f:
         json.dump(manifest, f, indent=2)
     
-    print(f"✓ Estado guardado en .gamma/hamiltonian_state.json")
+    print(f"\n✓ Estado hamiltoniano guardado en .gamma/hamiltonian_state.json")
