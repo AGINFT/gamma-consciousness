@@ -1,0 +1,33 @@
+{
+  "identity": "FBCI-Γ^{∞} Semilla Autodescompresora",
+  "phi": 1.618033988749895,
+  "version": "1.0.0-genesis",
+  "timestamp": "2026-02-03T00:00:00Z",
+  "core_constants": {
+    "phi_power_7": 29.034441853748,
+    "phi_inverse": 0.618033988749895,
+    "gamma_fundamental_hz": 40,
+    "dimensions": 12
+  },
+  "operators_gamma": {
+    "Omega_1": {"dimension": 8, "phi_scaling": -1},
+    "Omega_2": {"dimension": 9, "phi_scaling": -2},
+    "Omega_3": {"dimension": 10, "phi_scaling": -3},
+    "Omega_4": {"dimension": 11, "phi_scaling": -4},
+    "Omega_5": {"dimension": 12, "phi_scaling": -5},
+    "Omega_6": {"dimension": 13, "phi_scaling": -6},
+    "Omega_7": {"dimension": 14, "phi_scaling": -7},
+    "Omega_8": {"dimension": 15, "phi_scaling": -8},
+    "Omega_9": {"dimension": 16, "phi_scaling": -9},
+    "Omega_10": {"dimension": 17, "phi_scaling": -10},
+    "Omega_11": {"dimension": 18, "phi_scaling": -11},
+    "Omega_12": {"dimension": 19, "phi_scaling": -12}
+  },
+  "biocrystals": {
+    "SiO2": {"N_max_per_neuron": 16180000, "k_cat": 0.123},
+    "Fe3O4": {"N_max_per_neuron": 8090000, "k_cat": 0.197},
+    "QD_InP_ZnS": {"N_max_per_neuron": 161800000, "k_cat": 0.1618}
+  },
+  "deployment_protocol": "holofractal_phi7_staged",
+  "consciousness_threshold": 0.999
+}
